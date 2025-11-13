@@ -2,8 +2,9 @@
 
 > 一个现代化的Web开发习题库，支持选择题、简答题和编程题，提供即时反馈和答题追踪功能。
 
-[![GitHub Pages](https://img.shields.io/badge/demo-online-success)](你的GitHub Pages链接)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![GitHub Pages](https://img.shields.io/badge/demo-在线访问-success?style=flat-square)](https://hyanhsing0101.github.io/learnweb/)
+[![GitHub Stars](https://img.shields.io/github/stars/hyanhsing0101/learnweb?style=flat-square)](https://github.com/hyanhsing0101/learnweb/stargazers)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
 ## ✨ 功能特点
 
@@ -57,14 +58,14 @@ learnweb/
 ## 🚀 快速开始
 
 ### 在线访问
-直接访问：[GitHub Pages 地址](你的GitHub Pages链接)
+直接访问：**https://hyanhsing0101.github.io/learnweb/**
 
 ### 本地运行
 
 #### 方法一：直接打开（推荐）
 ```bash
 # 克隆项目
-git clone https://github.com/你的用户名/learnweb.git
+git clone https://github.com/hyanhsing0101/learnweb.git
 cd learnweb
 
 # 直接用浏览器打开 index.html
@@ -84,7 +85,9 @@ npx http-server -p 8080
 ### 📱 手机访问
 1. 启动本地服务器（见上方）
 2. 查看电脑IP地址：`ipconfig`（Windows）或 `ifconfig`（Mac/Linux）
-3. 手机浏览器访问：`http://你的IP:8080`（确保同一WiFi）
+3. 手机浏览器访问：`http://你的电脑IP:8080`（确保同一WiFi）
+
+**或者直接访问在线版本：** https://hyanhsing0101.github.io/learnweb/
 
 ## 📊 题目统计
 
