@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web开发复习 - 模块化版本</title>
+    <!-- Bootstrap 5 CSS (使用更快的CDN) -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="main-title">📚 Web开发复习</h1>
+
+      <!-- 导航标签 -->
+      <ul class="nav nav-pills justify-content-center mb-5">
+        <li class="nav-item me-3">
+          <button
+            class="nav-link active"
+            data-bs-toggle="pill"
+            data-bs-target="#welcome"
+          >
+            🏠 首页
+          </button>
+        </li>
+        <li class="nav-item me-3">
+          <button
+            class="nav-link"
+            data-bs-toggle="pill"
+            data-bs-target="#xuanze"
+          >
+            ✅ 选择题
+          </button>
+        </li>
+        <li class="nav-item me-3">
+          <button
+            class="nav-link"
+            data-bs-toggle="pill"
+            data-bs-target="#jianda"
+          >
+            📝 简答题
+          </button>
+        </li>
+        <li class="nav-item">
+          <button
+            class="nav-link"
+            data-bs-toggle="pill"
+            data-bs-target="#coding"
+          >
+            💻 编程题
+          </button>
+        </li>
+      </ul>
+
+      <!-- 内容区域 -->
+      <div class="tab-content">
+        <!-- 欢迎页面 -->
+        <div class="tab-pane fade show active" id="welcome">
+          <div class="welcome-page">
+            <img
+              src="https://youke1.picui.cn/s1/2025/11/12/6913f9e88485a.jpg"
+              alt="Hyan"
+              class="avatar"
+            />
+            <h2>Web开发习题库</h2>
+            <p class="author">
+              Created by
+              <a href="https://hyanhsing.xin" target="_blank"
+                ><strong>Hyan</strong></a
+              >
+            </p>
+
+            <div class="welcome-features">
+            <div class="feature-card">
+              <div class="icon">✅</div>
+              <h4>选择题</h4>
+              <p>56道精选题目<br />即时判题反馈<br />答题卡追踪</p>
+            </div>
+
+              <div class="feature-card">
+                <div class="icon">📝</div>
+                <h4>简答题</h4>
+                <p>21道核心简答<br />默写区+答案<br />自动保存</p>
+              </div>
+
+              <div class="feature-card">
+                <div class="icon">💻</div>
+                <h4>编程题</h4>
+                <p>9道实战题目<br />实时代码预览<br />多版本参考</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 60px; color: #95a5a6">
+              <p>点击上方标签开始复习 📚</p>
+              <p style="font-size: 14px; margin-top: 20px">
+                ✨ 模块化架构 · 懒加载优化 · 本地存储<br>
+                💡 选择题支持答题卡追踪 · 简答题支持答案查看
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 选择题 -->
+        <div class="tab-pane fade" id="xuanze">
+          <div id="quizList"></div>
+        </div>
+
+        <!-- 简答题 -->
+        <div class="tab-pane fade" id="jianda">
+          <div class="accordion"></div>
+        </div>
+
+        <!-- 编程题 -->
+        <div class="tab-pane fade" id="coding">
+          <div class="accordion" id="codingAccordion"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap 5 JS (使用更快的CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    
+    <!-- 公共函数模块 -->
+    <script src="assets/js/common.js"></script>
+    
+    <!-- 各题型模块 -->
+    <script src="assets/js/choice-questions.js"></script>
+    <script src="assets/js/short-questions.js"></script>
+    <script src="assets/js/coding-questions.js"></script>
+    
+    <!-- 懒加载管理器 -->
+    <script>
+      // 记录已加载的模块
+      const loadedModules = {
+        choice: false,
+        shortAnswer: false,
+        coding: false
+      };
+
+      // 监听标签点击事件（优化后的懒加载）
+      document.querySelectorAll('.nav-link').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const targetId = this.getAttribute('data-bs-target');
+          
+          // 控制选择题答题卡显示/隐藏
+          const answerCardToggle = document.getElementById('answer-card-toggle');
+          const answerCardPanel = document.getElementById('answer-card-panel');
+          
+          if (targetId === '#xuanze') {
+            // 在选择题页面显示答题卡
+            if (answerCardToggle) answerCardToggle.style.display = 'flex';
+            
+            // 选择题懒加载
+            if (!loadedModules.choice) {
+              loadedModules.choice = true;
+              requestAnimationFrame(() => {
+                if (typeof initChoiceQuestions === 'function') {
+                  initChoiceQuestions();
+                }
+              });
+            }
+          } else {
+            // 其他页面，隐藏选择题答题卡
+            if (answerCardToggle) answerCardToggle.style.display = 'none';
+            if (answerCardPanel) answerCardPanel.classList.remove('show');
+          }
+          
+          // 简答题懒加载
+          if (targetId === '#jianda' && !loadedModules.shortAnswer) {
+            loadedModules.shortAnswer = true;
+            requestAnimationFrame(() => {
+              if (typeof initShortAnswers === 'function') {
+                initShortAnswers();
+              }
+            });
+          }
+          
+          // 编程题懒加载
+          if (targetId === '#coding' && !loadedModules.coding) {
+            loadedModules.coding = true;
+            requestAnimationFrame(() => {
+              if (typeof initCodingProblems === 'function') {
+                initCodingProblems();
+              }
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
+

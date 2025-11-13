@@ -1,0 +1,913 @@
+/* ==================== 全局样式 ==================== */
+html {
+  overflow-y: scroll;
+}
+
+body {
+  background: #f8f9fa;
+  font-family: "Microsoft YaHei", -apple-system, sans-serif;
+  padding: 30px 15px;
+}
+
+/* ==================== 欢迎页面样式 ==================== */
+.welcome-page {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.welcome-page .avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 16px;
+  margin: 0 auto 30px;
+  border: 4px solid #3498db;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.welcome-page .avatar:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(52, 152, 219, 0.4);
+}
+
+.welcome-page h2 {
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.welcome-page .author {
+  font-size: 18px;
+  color: #7f8c8d;
+  margin-bottom: 40px;
+}
+
+.welcome-page .author a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s;
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+
+.welcome-page .author a:hover {
+  color: #3498db;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(52, 152, 219, 0.3);
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.welcome-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 50px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.feature-card {
+  background: white;
+  padding: 30px;
+  border-radius: 4px;
+  border: 2px solid #e1e8ed;
+  transition: all 0.2s;
+}
+
+.feature-card:hover {
+  border-color: #3498db;
+  transform: translateY(-5px);
+}
+
+.feature-card .icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.feature-card h4 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+/* ==================== 主标题和导航 ==================== */
+.main-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.nav-pills .nav-link {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 40px;
+  border-radius: 4px;
+  color: #5a6c7d;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #3498db;
+}
+
+/* ==================== 手风琴样式（简答题） ==================== */
+.accordion-button {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2c3e50;
+  background-color: #f5f7fa;
+}
+
+.accordion-button:not(.collapsed) {
+  background-color: #e3f2fd;
+  color: #2c3e50;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: #3498db;
+}
+
+.accordion-item {
+  border: 2px solid #e1e8ed;
+  border-left: 4px solid #3498db;
+  margin-bottom: 15px;
+  border-radius: 4px;
+}
+
+.accordion-body {
+  font-size: 16px;
+  color: #5a6c7d;
+  line-height: 2;
+}
+
+/* ==================== 编程题样式 ==================== */
+.coding-card {
+  border-left: 4px solid #2ecc71;
+}
+
+.section-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+  margin: 25px 0 15px 0;
+}
+
+.target-demo {
+  background: #ffffff;
+  padding: 25px;
+  border: 2px solid #f39c12;
+  border-radius: 4px;
+  margin: 20px 0;
+}
+
+.code-editor-area {
+  background: #2c3e50;
+  border: 2px solid #34495e;
+  border-radius: 4px;
+  padding: 15px;
+  height: 400px;
+}
+
+.code-editor-area textarea {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  color: #ecf0f1;
+  border: none;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 14px;
+  line-height: 1.8;
+  resize: none;
+  outline: none;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.code-editor-area textarea::placeholder {
+  color: #7f8c8d;
+}
+
+.preview-area {
+  border: 2px solid #e1e8ed;
+  border-radius: 4px;
+  height: 400px;
+  background: white;
+}
+
+.answer-accordion .accordion-item {
+  border-left: 4px solid #e67e22;
+}
+
+.answer-accordion .accordion-button {
+  background-color: #fff9e6;
+}
+
+.code-block {
+  background: #2c3e50;
+  color: #ecf0f1;
+  padding: 20px;
+  border-radius: 4px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 14px;
+  line-height: 1.8;
+  overflow: auto;
+  max-height: 400px;
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.2s;
+  opacity: 0.8;
+}
+
+.copy-btn:hover {
+  opacity: 1;
+  background: #2980b9;
+}
+
+.copy-btn.copied {
+  background: #2ecc71;
+}
+
+.knowledge-box {
+  background: #fff3dc;
+  border: 2px solid #f39c12;
+  border-radius: 4px;
+  padding: 20px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.knowledge-box h5 {
+  color: #e67e22;
+  font-weight: 600;
+  margin-top: 15px;
+}
+
+/* ==================== 选择题样式 ==================== */
+.quiz-card {
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-left: 4px solid #9c27b0;
+  border-radius: 4px;
+  padding: 25px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.quiz-number {
+  color: #9c27b0;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  padding-right: 100px; /* 为讲解按钮留出空间 */
+}
+
+.explain-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #ff9800;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+  white-space: nowrap; /* 防止按钮文字换行 */
+  z-index: 10; /* 确保按钮在最上层 */
+}
+
+.explain-btn:hover {
+  background: #f57c00;
+}
+
+/* 选项容器 - 使用flex布局 */
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.option-btn {
+  display: inline-block;
+  width: calc(50% - 5px); /* 两列布局，减去gap的一半 */
+  text-align: left;
+  padding: 15px 20px;
+  margin: 0; /* 改为0，由gap控制间距 */
+  background: #f5f7fa;
+  border: 2px solid #e1e8ed;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 16px;
+  color: #2c3e50;
+  box-sizing: border-box;
+}
+
+.option-btn:hover:not(:disabled) {
+  background: #e8edf3;
+  border-color: #9c27b0;
+}
+
+.option-btn.correct {
+  background: #e8f5e9 !important;
+  border-color: #2ecc71 !important;
+  color: #2ecc71 !important;
+  font-weight: 600;
+  cursor: not-allowed;
+}
+
+.option-btn.wrong {
+  background: #ffebee !important;
+  border-color: #e74c3c !important;
+  color: #e74c3c !important;
+  cursor: not-allowed;
+}
+
+.option-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.quiz-result {
+  margin-top: 15px;
+  padding: 15px;
+  border-radius: 4px;
+  font-weight: 600;
+  display: none;
+}
+
+.quiz-result.show {
+  display: block;
+}
+
+.quiz-result.correct {
+  background: #e8f5e9;
+  color: #2ecc71;
+  border-left: 4px solid #2ecc71;
+}
+
+.quiz-result.wrong {
+  background: #ffebee;
+  color: #e74c3c;
+  border-left: 4px solid #e74c3c;
+}
+
+/* ==================== 选择题答题卡样式 ==================== */
+/* 圆形浮动按钮 */
+.answer-card-toggle {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
+  background: #9c27b0;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: move;
+  box-shadow: 0 4px 12px rgba(156, 39, 176, 0.4);
+  z-index: 1001;
+  transition: all 0.3s;
+  display: none; /* 默认隐藏，只在选择题页面显示 */
+  align-items: center;
+  justify-content: center;
+}
+
+.answer-card-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(156, 39, 176, 0.5);
+}
+
+.answer-card-toggle.dragging {
+  cursor: grabbing;
+  opacity: 0.8;
+}
+
+/* 答题卡面板 */
+.answer-card-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  width: 340px;
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-left: 4px solid #9c27b0;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.answer-card-panel.show {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.answer-card-header {
+  background: #f5f7fa;
+  color: #2c3e50;
+  padding: 15px;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 2px solid #e1e8ed;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: white;
+}
+
+.answer-card-stats {
+  padding: 15px;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  color: #7f8c8d;
+  font-size: 12px;
+}
+
+.answer-grid {
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.answer-item {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #e1e8ed;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+  background: #f5f7fa;
+  color: #5a6c7d;
+  font-size: 13px;
+}
+
+.answer-item:hover {
+  border-color: #9c27b0;
+  background: #e8edf3;
+}
+
+.answer-item.correct {
+  background: #e8f5e9;
+  color: #2ecc71;
+  border-color: #2ecc71;
+  font-weight: 700;
+}
+
+.answer-item.wrong {
+  background: #ffebee;
+  color: #e74c3c;
+  border-color: #e74c3c;
+  font-weight: 700;
+}
+
+.answer-item.answered {
+  border-color: #3498db;
+  background: #e3f2fd;
+}
+
+.answer-card-footer {
+  padding: 15px;
+  border-top: 2px solid #e1e8ed;
+  position: sticky;
+  bottom: 0;
+  background: white;
+}
+
+.reset-btn {
+  width: 100%;
+  padding: 10px;
+  background: white;
+  color: #5a6c7d;
+  border: 2px solid #e1e8ed;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  font-size: 14px;
+}
+
+.reset-btn:hover {
+  background: #ffebee;
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+/* ==================== 简答题默写区样式 ==================== */
+/* 圆形浮动按钮（简答题） */
+.short-answer-card-toggle {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  width: 60px;
+  height: 60px;
+  background: #3498db;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: move;
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+  z-index: 1001;
+  transition: all 0.3s;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.short-answer-card-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(52, 152, 219, 0.5);
+}
+
+.short-answer-card-toggle.dragging {
+  cursor: grabbing;
+  opacity: 0.8;
+}
+
+/* 简答题默写区面板 */
+.short-answer-card-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 100px;
+  width: 400px;
+  background: white;
+  border: 2px solid #e1e8ed;
+  border-left: 4px solid #3498db;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: calc(100vh - 150px);
+  overflow-y: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.short-answer-card-panel.show {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.short-answer-list {
+  padding: 15px;
+  max-height: calc(100vh - 300px);
+  overflow-y: auto;
+}
+
+.short-answer-item {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e1e8ed;
+}
+
+.short-answer-item:last-child {
+  border-bottom: none;
+}
+
+.short-answer-question {
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.short-answer-textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 2px solid #e1e8ed;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.6;
+  resize: vertical;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  transition: border-color 0.3s;
+}
+
+.short-answer-textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.short-answer-textarea::placeholder {
+  color: #95a5a6;
+}
+
+/* 简答题答题区样式优化 */
+.short-answer-write-area {
+  margin-bottom: 15px;
+}
+
+.short-answer-write-area .short-answer-textarea {
+  border: 2px solid #e1e8ed;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  transition: border-color 0.3s;
+}
+
+.short-answer-write-area .short-answer-textarea:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+  outline: none;
+}
+
+/* ==================== 响应式设计 ==================== */
+
+/* iPad 适配 (768px - 1024px) */
+@media (max-width: 1024px) and (min-width: 768px) {
+  .container {
+    max-width: 95%;
+  }
+
+  /* 首页卡片适配 iPad */
+  .welcome-features {
+    gap: 20px;
+  }
+
+  .feature-card {
+    flex: 0 1 calc(33.333% - 15px);
+  }
+
+  /* 答题卡宽度调整 */
+  .answer-card-panel {
+    width: 320px;
+  }
+
+  /* 编程题代码区适配 */
+  .code-editor-area textarea {
+    font-size: 13px;
+  }
+
+  .preview-area {
+    min-height: 300px;
+  }
+}
+
+/* 手机适配 (< 768px) */
+@media (max-width: 767px) {
+  /* 容器适配 */
+  .container {
+    padding: 10px;
+  }
+
+  .main-title {
+    font-size: 28px;
+    margin: 20px 0;
+  }
+
+  /* 导航标签适配 */
+  .nav-pills {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .nav-item {
+    margin: 0 !important;
+    flex: 1 1 calc(50% - 4px);
+    min-width: 140px;
+  }
+
+  .nav-link {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+
+  /* 首页卡片纵向排列 */
+  .welcome-features {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .feature-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+  }
+
+  /* 选择题适配 */
+  .quiz-card {
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+
+  .quiz-number {
+    font-size: 15px;
+    padding-right: 80px;
+  }
+
+  .explain-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+
+  /* 选项改为单列 */
+  .options-container {
+    flex-direction: column;
+  }
+
+  .option-btn {
+    width: 100% !important;
+    margin-bottom: 8px;
+  }
+
+  /* 答题卡适配 */
+  .answer-card-toggle {
+    right: 15px;
+    bottom: 15px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .answer-card-panel {
+    width: calc(100vw - 30px);
+    right: 15px;
+    bottom: 80px;
+    max-height: calc(100vh - 120px);
+  }
+
+  /* 答题卡网格改为5列 */
+  .answer-grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .answer-item {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .answer-card-header {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .answer-card-stats {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+
+  .stat-number {
+    font-size: 20px;
+  }
+
+  .stat-label {
+    font-size: 11px;
+  }
+
+  /* 简答题适配 */
+  .accordion-button {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  .accordion-body {
+    padding: 15px;
+  }
+
+  .short-answer-textarea {
+    font-size: 14px;
+    min-height: 120px;
+  }
+
+  /* 编程题适配 - 改为上下堆叠 */
+  .row {
+    flex-direction: column;
+  }
+
+  .col-md-6,
+  .col-md-12 {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .code-editor-area textarea {
+    height: 250px;
+    font-size: 13px;
+  }
+
+  .preview-area {
+    min-height: 250px;
+    margin-top: 15px;
+  }
+
+  .section-label {
+    font-size: 16px;
+    margin-top: 20px;
+  }
+
+  /* 代码块适配 */
+  pre {
+    font-size: 12px;
+    padding: 12px;
+    overflow-x: auto;
+  }
+}
+
+/* 超小屏幕适配 (< 480px) */
+@media (max-width: 479px) {
+  .main-title {
+    font-size: 24px;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+
+  /* 答题卡网格改为4列 */
+  .answer-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .answer-item {
+    height: 35px;
+    font-size: 13px;
+  }
+
+  .feature-card h4 {
+    font-size: 18px;
+  }
+
+  .feature-card p {
+    font-size: 13px;
+  }
+
+  .quiz-number {
+    font-size: 14px;
+  }
+
+  .option-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
