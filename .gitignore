@@ -29,3 +29,7 @@ package-lock.json
 # 其他
 .env
 
+# AI配置（不需要忽略，因为文件中不包含真实API Key）
+# 配置通过弹窗填写，保存在localStorage中
+# assets/js/ai-config.js
+

@@ -307,14 +307,14 @@ body {
 /* 选项容器 - 使用flex布局 */
 .options-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column; /* 改为垂直排列 */
   gap: 10px;
   margin-top: 15px;
 }
 
 .option-btn {
   display: inline-block;
-  width: calc(50% - 5px); /* 两列布局，减去gap的一半 */
+  width: 100%; /* 单列布局，每个选项独占一行 */
   text-align: left;
   padding: 15px 20px;
   margin: 0; /* 改为0，由gap控制间距 */
@@ -547,6 +547,42 @@ body {
 }
 
 /* ==================== 简答题默写区样式 ==================== */
+/* 简答题顶部按钮区 */
+.short-answer-header {
+  margin-bottom: 20px;
+  padding: 15px 20px;
+  background: #fff;
+  border: 2px solid #e1e8ed;
+  border-left: 4px solid #3498db;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+}
+
+.short-answer-header:hover {
+  box-shadow: 0 4px 8px rgba(52, 152, 219, 0.15);
+  border-left-color: #2980b9;
+}
+
+.short-answer-header::before {
+  content: "📝 简答题练习区";
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.short-answer-header .btn {
+  transition: all 0.3s;
+}
+
+.short-answer-header .btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
 /* 圆形浮动按钮（简答题） */
 .short-answer-card-toggle {
   position: fixed;
@@ -671,6 +707,150 @@ body {
   outline: none;
 }
 
+/* AI评分结果样式 */
+.ai-score-result {
+  animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ai-score-result ul {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+.ai-score-result ul li {
+  margin-bottom: 5px;
+}
+
+/* ==================== 熟练度标签样式 ==================== */
+.proficiency-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: #f8f9fa;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-left: 10px;
+  transition: all 0.3s;
+}
+
+.proficiency-tag:hover {
+  background: #e9ecef;
+}
+
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.star {
+  font-size: 18px;
+  color: #ddd;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.star:hover {
+  transform: scale(1.2);
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.star.level-1 { color: #e74c3c; } /* 1星-红色 */
+.star.level-2 { color: #f39c12; } /* 2星-橙色 */
+.star.level-3 { color: #f1c40f; } /* 3星-黄色 */
+.star.level-4 { color: #2ecc71; } /* 4星-浅绿 */
+.star.level-5 { color: #27ae60; } /* 5星-深绿 */
+
+.proficiency-label {
+  font-size: 12px;
+  color: #666;
+  margin-left: 5px;
+}
+
+/* 熟练度统计卡片 */
+.proficiency-stats {
+  margin-top: 30px;
+  padding: 20px;
+  background: #fff;
+  border: 2px solid #e1e8ed;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.proficiency-stats-header {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #3498db;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.proficiency-stats-header::before {
+  content: '📊';
+  font-size: 20px;
+}
+
+.proficiency-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.proficiency-stats .stat-item {
+  background: #f8f9fa;
+  padding: 15px 10px;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s;
+  border: 1px solid #e1e8ed;
+}
+
+.proficiency-stats .stat-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
+  border-color: #3498db;
+}
+
+.proficiency-stats .stat-item .icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.proficiency-stats .stat-item .label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #5a6c7d;
+}
+
+.proficiency-stats .stat-item .count {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2c3e50;
+}
+
 /* ==================== 响应式设计 ==================== */
 
 /* iPad 适配 (768px - 1024px) */
@@ -765,13 +945,10 @@ body {
   }
 
   /* 选项改为单列 */
-  .options-container {
-    flex-direction: column;
-  }
-
+  /* 选项已经是单列布局，无需额外设置 */
   .option-btn {
-    width: 100% !important;
-    margin-bottom: 8px;
+    font-size: 14px;
+    padding: 12px 15px;
   }
 
   /* 答题卡适配 */
@@ -822,6 +999,21 @@ body {
   }
 
   /* 简答题适配 */
+  .short-answer-header {
+    padding: 12px 15px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .short-answer-header::before {
+    font-size: 14px;
+  }
+
+  .short-answer-header .btn {
+    width: 100%;
+  }
+
   .accordion-button {
     font-size: 14px;
     padding: 12px;
@@ -834,6 +1026,27 @@ body {
   .short-answer-textarea {
     font-size: 14px;
     min-height: 120px;
+  }
+
+  /* 熟练度统计适配 */
+  .proficiency-stats {
+    padding: 20px 15px;
+  }
+
+  .proficiency-stats-header {
+    font-size: 16px;
+  }
+
+  .proficiency-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .proficiency-stats .stat-item {
+    padding: 12px;
+  }
+
+  .proficiency-stats .stat-item .count {
+    font-size: 24px;
   }
 
   /* 编程题适配 - 改为上下堆叠 */
@@ -899,6 +1112,28 @@ body {
 
   .feature-card p {
     font-size: 13px;
+  }
+
+  /* 超小屏幕熟练度统计 */
+  .proficiency-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .proficiency-stats .stat-item {
+    padding: 10px;
+  }
+
+  .proficiency-stats .stat-item .icon {
+    font-size: 20px;
+  }
+
+  .proficiency-stats .stat-item .label {
+    font-size: 12px;
+  }
+
+  .proficiency-stats .stat-item .count {
+    font-size: 22px;
   }
 
   .quiz-number {

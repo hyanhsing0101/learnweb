@@ -175,8 +175,8 @@ const quizData = [
       { key: "C", value: "colspan" },
       { key: "D", value: "rowspan" },
     ],
-    answer: "A",
-    explain: "<strong>cols</strong> = columns（列），设置垂直分割（左右分割）。<strong>rows</strong>（行）设置水平分割（上下分割）。注意：题目说水平分割实际指左右分割，用cols。colspan/rowspan用于表格，不是frameset。"
+    answer: "B",
+    explain: "<strong>水平分割 = 用水平线（横线）分割 = 上下分割 = rows（行）</strong>。<strong>垂直分割 = 用垂直线（竖线）分割 = 左右分割 = cols（列）</strong>。记忆技巧：看分割线的方向，水平线→rows，垂直线→cols。colspan/rowspan是表格属性，不用于frameset。"
   },
   {
     question: "以下标记中，（）标记不能放在&lt;body&gt;&lt;/body&gt;标记范围内",
@@ -546,11 +546,11 @@ const quizData = [
     options: [
       { key: "A", value: "document.forms.myButton" },
       { key: "B", value: "document.mainForm.myButton" },
-      { key: "C", value: "document.forms[0].elements[0]" },
-      { key: "D", value: "以上都可以" },
+      { key: "C", value: "document.forms[0].element[0]" },
+      { key: "D", value: "以上都不对" },
     ],
-    answer: "D",
-    explain: "访问表单元素的多种方法：<strong>①document.表单名.元素名、②document.forms[索引].elements[索引]、③document.forms.元素名</strong>。都是合法的DOM访问方式。"
+    answer: "B",
+    explain: "<strong>只有B正确！</strong><strong>A错误</strong>：document.forms是集合，不能直接.myButton。<strong>B正确</strong>：有name属性时可用document.表单名.元素名访问。<strong>C错误</strong>：应该是element<strong>s</strong>（复数），不是element（单数）。"
   },
   {
     question: "在JavaScript浏览器对象模型中，window对象的（）属性用来指定浏览器状态栏中显示的临时信息",
@@ -626,8 +626,33 @@ let firstAttemptStatus = {}; // 记录首次答题是否正确
 
 // 初始化选择题
 function initChoiceQuestions() {
+  // 从localStorage加载已保存的答案
+  loadSavedAnswers();
   loadQuizzes();
   renderAnswerCard();
+  // 渲染完答题卡后，更新答题卡状态（延迟确保DOM已渲染）
+  requestAnimationFrame(() => {
+    updateAnswerCard();
+  });
+}
+
+// 加载已保存的答案
+function loadSavedAnswers() {
+  try {
+    const savedAnswers = localStorage.getItem('userAnswers');
+    const savedStatus = localStorage.getItem('firstAttemptStatus');
+    
+    if (savedAnswers) {
+      userAnswers = JSON.parse(savedAnswers);
+    }
+    if (savedStatus) {
+      firstAttemptStatus = JSON.parse(savedStatus);
+    }
+  } catch (e) {
+    console.error('加载答题记录失败:', e);
+    userAnswers = {};
+    firstAttemptStatus = {};
+  }
 }
 
 // 加载选择题（性能优化版）
@@ -672,6 +697,58 @@ function loadQuizzes() {
   });
 
   quizList.innerHTML = quizCards.join("");
+  
+  // 恢复已保存的答案状态
+  restoreAnswerStates();
+}
+
+// 恢复已保存的答案状态
+function restoreAnswerStates() {
+  Object.keys(userAnswers).forEach(quizId => {
+    const quiz = quizData[quizId - 1];
+    if (!quiz) return;
+    
+    const userAnswer = userAnswers[quizId];
+    const isCorrect = userAnswer === quiz.answer;
+    const btns = document.querySelectorAll(`[data-quiz="${quizId}"]`);
+    const resultDiv = document.getElementById(`result-${quizId}`);
+    
+    if (isCorrect) {
+      // 恢复正确答案的状态
+      btns.forEach((btn) => {
+        const btnOption = btn.getAttribute("data-option");
+        btn.disabled = true;
+        
+        if (btnOption === quiz.answer) {
+          btn.classList.add("correct");
+        }
+      });
+      
+      if (resultDiv) {
+        resultDiv.classList.remove("wrong");
+        resultDiv.classList.add("show", "correct");
+        resultDiv.innerHTML = "✅ 回答正确！";
+      }
+    } else {
+      // 恢复错误答案的状态（显示用户选错的选项和正确答案）
+      btns.forEach((btn) => {
+        const btnOption = btn.getAttribute("data-option");
+        
+        if (btnOption === userAnswer) {
+          btn.classList.add("wrong");
+        }
+        if (btnOption === quiz.answer) {
+          btn.classList.add("correct");
+        }
+      });
+      
+      if (resultDiv) {
+        resultDiv.classList.remove("correct");
+        resultDiv.classList.add("show", "wrong");
+        resultDiv.innerHTML = "❌ 回答错误，正确答案是 " + quiz.answer;
+      }
+    }
+  });
 }
 
 // 选择选项（立即判断）
@@ -681,6 +758,9 @@ function selectOption(quizId, option, event) {
   const btns = document.querySelectorAll(`[data-quiz="${quizId}"]`);
   const resultDiv = document.getElementById(`result-${quizId}`);
 
+  // 记录用户答案
+  userAnswers[quizId] = option;
+  
   // 如果是第一次答题，记录状态（错误则永久标记为错误）
   if (!firstAttemptStatus[quizId]) {
     firstAttemptStatus[quizId] = isCorrect ? 'correct' : 'wrong';
@@ -715,6 +795,10 @@ function selectOption(quizId, option, event) {
     resultDiv.classList.add("show", "wrong");
     resultDiv.innerHTML = `❌ 回答错误！请再试一次（正确答案：${quiz.answer}）`;
   }
+
+  // 保存到localStorage
+  localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+  localStorage.setItem('firstAttemptStatus', JSON.stringify(firstAttemptStatus));
 
   // 更新答题卡
   updateAnswerCard();
@@ -828,6 +912,8 @@ function updateAnswerCard() {
     const status = firstAttemptStatus[quizId];
     const cardItem = document.getElementById(`card-${quizId}`);
     
+    if (!cardItem) return; // 安全检查
+    
     if (status === 'correct') {
       correctCount++;
       cardItem.className = 'answer-item correct';
@@ -838,8 +924,11 @@ function updateAnswerCard() {
   });
 
   // 更新统计数据
-  document.getElementById('correct-count').textContent = correctCount;
-  document.getElementById('wrong-count').textContent = wrongCount;
+  const correctCountEl = document.getElementById('correct-count');
+  const wrongCountEl = document.getElementById('wrong-count');
+  
+  if (correctCountEl) correctCountEl.textContent = correctCount;
+  if (wrongCountEl) wrongCountEl.textContent = wrongCount;
 }
 
 // 跳转到指定题目
@@ -934,8 +1023,16 @@ function resetAllAnswers() {
   // 清空答题记录
   userAnswers = {};
   firstAttemptStatus = {};
+  
+  // 清空localStorage
+  localStorage.removeItem('userAnswers');
+  localStorage.removeItem('firstAttemptStatus');
 
-  // 重新加载题目
+  // 清空并重新加载题目
+  const quizList = document.getElementById("quizList");
+  if (quizList) {
+    quizList.innerHTML = '';
+  }
   loadQuizzes();
   
   // 移除旧的答题卡UI

@@ -1422,8 +1422,13 @@ export default defineComponent({
 ];
 
 // 初始化编程题
+// 熟练度存储
+let codingProficiency = {};
+
 function initCodingProblems() {
+  loadCodingProficiency(); // 加载熟练度
   renderCodingProblems();
+  renderCodingProficiencyStats(); // 渲染统计
   
   // 编程题渲染完成后，初始化代码编辑器的Tab功能
   requestAnimationFrame(() => {
@@ -1489,6 +1494,9 @@ function renderSingleVersionProblem(problem) {
       <h2 class="accordion-header">
         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#coding${problem.id}">
           编程题${problem.id}：${problem.title}
+          <span class="proficiency-tag" onclick="event.stopPropagation();">
+            ${renderCodingStars(problem.id)}
+          </span>
         </button>
       </h2>
       <div id="coding${problem.id}" class="accordion-collapse collapse" data-bs-parent="#codingAccordion">
@@ -1651,6 +1659,107 @@ window.showVersion2 = function (version) {
   });
   event.target.classList.add("active");
 };
+
+// ==================== 熟练度功能（编程题） ====================
+
+// 加载熟练度数据
+function loadCodingProficiency() {
+  try {
+    const saved = localStorage.getItem('codingProficiency');
+    if (saved) {
+      codingProficiency = JSON.parse(saved);
+    }
+  } catch (e) {
+    console.error('加载编程题熟练度失败:', e);
+    codingProficiency = {};
+  }
+}
+
+// 保存熟练度
+function saveCodingProficiency() {
+  localStorage.setItem('codingProficiency', JSON.stringify(codingProficiency));
+  renderCodingProficiencyStats(); // 更新统计
+}
+
+// 渲染星星
+function renderCodingStars(id) {
+  const level = codingProficiency[id] || 0;
+  const labels = ['未练习', '不熟练', '一般', '比较熟', '熟练', '精通'];
+  
+  let stars = '';
+  for (let i = 1; i <= 5; i++) {
+    const filled = i <= level ? 'filled level-' + level : '';
+    stars += `<span class="star ${filled}" onclick="setCodingProficiency(${id}, ${i})" title="${i}星">★</span>`;
+  }
+  
+  const labelText = level > 0 ? `<span class="proficiency-label">${labels[level]}</span>` : '';
+  
+  return `<span class="star-rating">${stars}</span>${labelText}`;
+}
+
+// 设置熟练度
+function setCodingProficiency(id, level) {
+  codingProficiency[id] = level;
+  saveCodingProficiency();
+  // 重新渲染编程题
+  renderCodingProblems();
+  // 恢复代码编辑器
+  requestAnimationFrame(() => {
+    if (typeof initCodeEditors === 'function') {
+      initCodeEditors();
+    }
+  });
+}
+
+// 渲染熟练度统计
+function renderCodingProficiencyStats() {
+  const container = document.querySelector("#coding");
+  if (!container) return;
+  
+  // 统计各等级数量
+  const stats = {
+    0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0
+  };
+  
+  codingProblemsData.forEach(item => {
+    const level = codingProficiency[item.id] || 0;
+    stats[level]++;
+  });
+  
+  // 检查是否已有统计区域
+  let statsDiv = document.getElementById('proficiency-stats-coding');
+  if (!statsDiv) {
+    statsDiv = document.createElement('div');
+    statsDiv.id = 'proficiency-stats-coding';
+    statsDiv.className = 'proficiency-stats';
+    container.appendChild(statsDiv); // 改为添加到容器底部
+  }
+  
+  const labels = [
+    { level: 5, label: '精通', icon: '★★★★★' },
+    { level: 4, label: '熟练', icon: '★★★★☆' },
+    { level: 3, label: '比较熟', icon: '★★★☆☆' },
+    { level: 2, label: '一般', icon: '★★☆☆☆' },
+    { level: 1, label: '不熟练', icon: '★☆☆☆☆' },
+    { level: 0, label: '未练习', icon: '☆☆☆☆☆' }
+  ];
+  
+  // 新的卡片式布局
+  statsDiv.innerHTML = `
+    <div class="proficiency-stats-header">
+      学习进度一览
+    </div>
+    <div class="proficiency-stats-grid">
+      ${labels.map(item => `
+        <div class="stat-item">
+          <div class="icon">${item.icon}</div>
+          <div class="label">${item.label}</div>
+          <div class="count">${stats[item.level]}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
 
 // 不再自动初始化，改为懒加载
 // 由 index.html 中的懒加载管理器调用 initCodingProblems()

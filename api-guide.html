@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI评分完整指南</title>
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      .guide-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+      }
+      .guide-header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding-bottom: 30px;
+        border-bottom: 3px solid #3498db;
+      }
+      .guide-header h1 {
+        color: #2c3e50;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 15px;
+      }
+      .guide-section {
+        background: #fff;
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+      .guide-section h2 {
+        color: #3498db;
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #ecf0f1;
+      }
+      .guide-section h3 {
+        color: #2c3e50;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 15px;
+      }
+      .step-list {
+        list-style: none;
+        padding-left: 0;
+      }
+      .step-list li {
+        padding: 12px 0 12px 35px;
+        position: relative;
+        border-left: 3px solid #ecf0f1;
+        margin-left: 10px;
+      }
+      .step-list li:before {
+        content: counter(step-counter);
+        counter-increment: step-counter;
+        position: absolute;
+        left: -18px;
+        top: 12px;
+        background: #3498db;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .step-list {
+        counter-reset: step-counter;
+      }
+      .code-block {
+        background: #f8f9fa;
+        border: 1px solid #e9ecef;
+        border-radius: 6px;
+        padding: 15px;
+        margin: 15px 0;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        color: #2c3e50;
+        overflow-x: auto;
+      }
+      .example-table {
+        width: 100%;
+        margin-top: 20px;
+      }
+      .example-table th {
+        background: #3498db;
+        color: white;
+        padding: 12px;
+        text-align: left;
+      }
+      .example-table td {
+        padding: 12px;
+        border-bottom: 1px solid #ecf0f1;
+      }
+      .example-table tr:last-child td {
+        border-bottom: none;
+      }
+      .alert-custom {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .alert-info-custom {
+        background: #d1ecf1;
+        border-left: 4px solid #17a2b8;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .alert-success-custom {
+        background: #d4edda;
+        border-left: 4px solid #28a745;
+        padding: 15px 20px;
+        border-radius: 6px;
+        margin: 20px 0;
+      }
+      .link-button {
+        display: inline-block;
+        margin-top: 30px;
+        padding: 12px 30px;
+        background: #3498db;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        transition: all 0.3s;
+      }
+      .link-button:hover {
+        background: #2980b9;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+      }
+      .back-button {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background: white;
+        border: 2px solid #3498db;
+        color: #3498db;
+        padding: 10px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+        z-index: 1000;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+      .back-button:hover {
+        background: #3498db;
+        color: white;
+      }
+      .toc {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+      .toc ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      .toc li {
+        padding: 5px 0;
+      }
+      .toc a {
+        color: #3498db;
+        text-decoration: none;
+      }
+      .toc a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="index.html" class="back-button">← 返回</a>
+
+    <div class="guide-container">
+      <!-- 标题区域 -->
+      <div class="guide-header">
+        <h1>🤖 AI评分功能完整指南</h1>
+        <p class="text-muted">从配置到使用的完整教程</p>
+      </div>
+
+      <!-- 目录 -->
+      <div class="toc">
+        <h4 style="margin-bottom: 15px; color: #2c3e50;">📑 目录</h4>
+        <ul>
+          <li><a href="#function">功能说明</a></li>
+          <li><a href="#quick-start">快速开始</a></li>
+          <li><a href="#config">配置步骤</a></li>
+          <li><a href="#usage">使用说明</a></li>
+          <li><a href="#faq">常见问题</a></li>
+          <li><a href="#advanced">进阶配置</a></li>
+        </ul>
+      </div>
+
+      <!-- 功能说明 -->
+      <div class="guide-section" id="function">
+        <h2>📋 功能说明</h2>
+        <p>AI评分功能使用火山方舟（字节跳动豆包大模型）为简答题提供智能评分和反馈。支持用户自定义API Key和模型配置，所有配置保存在浏览器本地，不会上传到服务器。</p>
+      </div>
+
+      <!-- 快速开始 -->
+      <div class="guide-section" id="quick-start">
+        <h2>🚀 快速开始</h2>
+        <h3>第一步：获取API配置信息</h3>
+        
+        <h4>1. 获取 API Key</h4>
+        <ol class="step-list">
+          <li>访问 <a href="https://console.volcengine.com/ark" target="_blank" class="fw-bold">火山方舟控制台</a></li>
+          <li>登录账号（如无账号需先注册）</li>
+          <li>进入 <strong>「API密钥管理」</strong></li>
+          <li>点击 <strong>「创建密钥」</strong></li>
+          <li>复制生成的 API Key（格式示例：<code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code>）</li>
+        </ol>
+
+        <h4>2. 获取 Endpoint（API端点）</h4>
+        <p><strong>火山方舟默认端点：</strong></p>
+        <div class="code-block">
+https://ark.cn-beijing.volces.com/api/v3/chat/completions
+        </div>
+        <p><strong>说明：</strong></p>
+        <ul>
+          <li>北京区域：<code>https://ark.cn-beijing.volces.com/api/v3/chat/completions</code></li>
+          <li>其他区域可在控制台的「接入点详情」中查看</li>
+        </ul>
+
+        <h4>3. 获取 Model（接入点ID）</h4>
+        <ol class="step-list">
+          <li>进入火山方舟控制台的 <strong>「模型推理」→「在线推理」</strong></li>
+          <li>点击 <strong>「创建接入点」</strong></li>
+          <li>选择模型（推荐：<code>豆包-pro-32k</code> 或 <code>豆包-lite-32k</code>）</li>
+          <li>创建成功后，复制 <strong>「接入点ID」</strong></li>
+        </ol>
+        <p><strong>格式示例：</strong></p>
+        <div class="code-block">
+ep-m-20241201000000-abcde
+ep-20241114211055-xxxxx
+        </div>
+      </div>
+
+      <!-- 配置步骤 -->
+      <div class="guide-section" id="config">
+        <h2>⚙️ 配置步骤</h2>
+        
+        <h3>方法一：通过AI配置弹窗（推荐）</h3>
+        <p>这是最简单的方式，适合所有用户：</p>
+        <ol class="step-list">
+          <li><strong>打开配置弹窗</strong>：在简答题页面，点击页面顶部的 <strong>「🤖 AI配置」</strong> 按钮</li>
+          <li><strong>填写配置信息</strong>：
+            <ul>
+              <li>✅ 勾选 <strong>「启用AI评分功能」</strong></li>
+              <li>🔑 填入 <strong>API Key</strong>（点击👁️可显示/隐藏）</li>
+              <li>🌐 填入 <strong>API端点</strong>（默认已填充）</li>
+              <li>🤖 填入 <strong>模型ID</strong>（接入点ID）</li>
+              <li>⚙️ 如需调整，可展开 <strong>「高级参数」</strong></li>
+            </ul>
+          </li>
+          <li><strong>保存配置</strong>：点击 <strong>「保存配置」</strong> 按钮，配置会自动保存到浏览器本地</li>
+          <li><strong>测试使用</strong>：返回简答题页面，填写答案，点击 <strong>「🤖 AI评分」</strong> 按钮测试</li>
+        </ol>
+
+        <h3>方法二：修改配置文件（开发者）</h3>
+        <p>如果你想直接修改代码配置：</p>
+        <ol class="step-list">
+          <li>复制配置示例文件：<code>cp assets/js/ai-config.example.js assets/js/ai-config.js</code></li>
+          <li>打开 <code>assets/js/ai-config.js</code>，修改配置信息</li>
+          <li>刷新页面即可使用</li>
+        </ol>
+
+        <h3>📝 配置示例</h3>
+        <table class="example-table table">
+          <thead>
+            <tr>
+              <th>配置项</th>
+              <th>示例值</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>启用AI功能</strong></td>
+              <td>✅ 已勾选</td>
+            </tr>
+            <tr>
+              <td><strong>API Key</strong></td>
+              <td><code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code></td>
+            </tr>
+            <tr>
+              <td><strong>Endpoint</strong></td>
+              <td><code>https://ark.cn-beijing.volces.com/api/v3/chat/completions</code></td>
+            </tr>
+            <tr>
+              <td><strong>Model</strong></td>
+              <td><code>ep-m-20241201000000-abcde</code></td>
+            </tr>
+            <tr>
+              <td><strong>Temperature</strong></td>
+              <td><code>0.3</code></td>
+            </tr>
+            <tr>
+              <td><strong>Max Tokens</strong></td>
+              <td><code>200</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 使用说明 -->
+      <div class="guide-section" id="usage">
+        <h2>🎯 使用说明</h2>
+        
+        <h3>如何使用AI评分功能</h3>
+        <ol class="step-list">
+          <li><strong>准备工作</strong>：确保已配置API Key和模型信息，已启用AI评分功能</li>
+          <li><strong>填写答案</strong>：进入 <strong>「📝 简答题」</strong> 页面，在任意题目下填写你的答案</li>
+          <li><strong>点击评分</strong>：点击题目下方的 <strong>「🤖 AI评分」</strong> 按钮</li>
+          <li><strong>查看结果</strong>：等待1-3秒，AI会自动分析你的答案并显示评分结果</li>
+        </ol>
+
+        <h3>AI评分结果包含</h3>
+        <div class="alert-info-custom">
+          <ul style="margin: 0; padding-left: 20px;">
+            <li>✅ <strong>分数</strong>：0-100分，直观显示答题质量</li>
+            <li>💬 <strong>总体评价</strong>：答案的整体质量分析</li>
+            <li>✅ <strong>答题优点</strong>：答对的要点和亮点</li>
+            <li>💡 <strong>改进建议</strong>：可以改进的地方</li>
+          </ul>
+        </div>
+
+        <h3>评分等级</h3>
+        <ul>
+          <li><strong>90-100分</strong>：优秀（绿色显示）</li>
+          <li><strong>80-89分</strong>：良好（蓝色显示）</li>
+          <li><strong>70-79分</strong>：中等（橙色显示）</li>
+          <li><strong>60-69分</strong>：及格（橙红色显示）</li>
+          <li><strong>60分以下</strong>：不及格（红色显示）</li>
+        </ul>
+
+        <h3>如何管理AI配置</h3>
+        <ol class="step-list">
+          <li><strong>打开配置弹窗</strong>：点击简答题页面顶部的 <strong>「🤖 AI配置」</strong> 按钮</li>
+          <li><strong>修改配置</strong>：更新API Key、端点或模型ID，调整高级参数（如需要）</li>
+          <li><strong>保存配置</strong>：点击 <strong>「保存配置」</strong></li>
+          <li><strong>恢复默认</strong>：点击 <strong>「恢复默认」</strong> 按钮可恢复为默认配置</li>
+          <li><strong>禁用功能</strong>：取消勾选 <strong>「启用AI评分功能」</strong> 可禁用AI评分</li>
+        </ol>
+      </div>
+
+      <!-- 费用说明 -->
+      <div class="guide-section">
+        <h2>📊 API 费用</h2>
+        <h3>火山方舟定价（参考）</h3>
+        <ul>
+          <li><strong>豆包-lite-32k</strong>：~¥0.0003/千tokens（约0.003元/题）</li>
+          <li><strong>豆包-pro-32k</strong>：~¥0.001/千tokens（约0.01元/题）</li>
+        </ul>
+        <h3>免费额度</h3>
+        <ul>
+          <li>新用户通常有一定免费额度</li>
+          <li>每月有免费调用次数</li>
+          <li>具体以火山方舟官网为准</li>
+        </ul>
+        <h3>成本优化建议</h3>
+        <div class="alert-success-custom">
+          <ul style="margin: 0; padding-left: 20px;">
+            <li>使用 <code>maxTokens: 200</code> 可以降低每次调用成本</li>
+            <li>使用 <code>豆包-lite-32k</code> 模型价格更低</li>
+            <li>评分结果已优化，减少不必要的token消耗</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 注意事项 -->
+      <div class="guide-section">
+        <h2>⚠️ 注意事项</h2>
+        <div class="alert-custom">
+          <ul style="margin: 0; padding-left: 20px;">
+            <li><strong>API Key 安全</strong>：不要将API Key分享给他人，不要提交到GitHub公开仓库</li>
+            <li><strong>配置存储</strong>：配置保存在浏览器本地，不会上传到服务器</li>
+            <li><strong>网络要求</strong>：火山方舟国内访问速度快，无需翻墙，但需要稳定的网络连接</li>
+            <li><strong>区域选择</strong>：确保 Endpoint 区域与你的接入点区域一致</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 常见问题 -->
+      <div class="guide-section" id="faq">
+        <h2>🔧 常见问题</h2>
+        
+        <h3>Q1: 点击"AI评分"提示"功能未启用"</h3>
+        <p><strong>A:</strong> 打开AI配置弹窗，勾选 <strong>「启用AI评分功能」</strong>，确保已填写API Key、Endpoint和Model，点击保存配置。</p>
+
+        <h3>Q2: 提示"API Key未配置"</h3>
+        <p><strong>A:</strong> 检查AI配置弹窗中是否已填写API Key，确保API Key格式正确，尝试重新保存配置。</p>
+
+        <h3>Q3: 提示"401 Unauthorized"</h3>
+        <p><strong>A:</strong> API Key错误或已过期，重新生成API Key并更新配置，检查API Key是否完整复制。</p>
+
+        <h3>Q4: 提示"模型不存在"</h3>
+        <p><strong>A:</strong> 检查Model字段是否填写正确的接入点ID，确认接入点ID格式正确，确认接入点已创建并启用。</p>
+
+        <h3>Q5: 响应很慢</h3>
+        <p><strong>A:</strong> 检查网络连接，可以降低<code>maxTokens</code>参数（如改为150），切换到lite版本模型（价格更低，速度可能更快）。</p>
+
+        <h3>Q6: 评分不准确</h3>
+        <p><strong>A:</strong> 调整<code>temperature</code>参数（建议0.2-0.4，越小越严格），确保参考答案质量高，多次尝试可能得到不同评分（AI有随机性）。</p>
+
+        <h3>Q7: 配置丢失了</h3>
+        <p><strong>A:</strong> 配置保存在浏览器本地，清除浏览器数据会丢失。建议备份配置信息。</p>
+      </div>
+
+      <!-- 调试技巧 -->
+      <div class="guide-section">
+        <h2>🛠️ 调试技巧</h2>
+        
+        <h3>查看API调用状态</h3>
+        <ol class="step-list">
+          <li>打开浏览器开发者工具（按<code>F12</code>）</li>
+          <li>切换到 <strong>「Console」</strong> 标签</li>
+          <li>点击AI评分按钮</li>
+          <li>查看控制台输出：API调用状态、错误信息、响应内容</li>
+        </ol>
+
+        <h3>查看网络请求</h3>
+        <ol class="step-list">
+          <li>打开开发者工具（<code>F12</code>）</li>
+          <li>切换到 <strong>「Network」</strong> 标签</li>
+          <li>点击AI评分按钮</li>
+          <li>查看发送到API的请求：请求URL、请求头、请求体、响应内容</li>
+        </ol>
+
+        <h3>检查配置是否正确加载</h3>
+        <p>在浏览器控制台输入：</p>
+        <div class="code-block">
+localStorage.getItem('aiConfig')
+        </div>
+        <p>查看配置是否正确保存。</p>
+      </div>
+
+      <!-- 进阶配置 -->
+      <div class="guide-section" id="advanced">
+        <h2>💡 进阶配置</h2>
+        
+        <h3>自定义评分标准</h3>
+        <p>可以修改<code>ai-config.js</code>中的<code>SCORING_PROMPT</code>来自定义评分标准：</p>
+        <div class="code-block">
+const SCORING_PROMPT = `你是一位严谨的Web开发课程老师，正在批改简答题。
+
+【评分标准】
+1. 要点完整性（50分）：必须包含核心概念
+2. 表述准确性（30分）：专业术语使用正确
+3. 逻辑清晰度（20分）：条理清楚、有层次
+...`;
+        </div>
+
+        <h3>调整评分严格程度</h3>
+        <ul>
+          <li><strong>更严格</strong>：降低<code>temperature</code>（如0.2）</li>
+          <li><strong>更宽松</strong>：提高<code>temperature</code>（如0.4）</li>
+          <li><strong>更详细反馈</strong>：提高<code>maxTokens</code>（如300）</li>
+        </ul>
+      </div>
+
+      <!-- 参考资料 -->
+      <div class="guide-section">
+        <h2>📚 参考资料</h2>
+        <ul>
+          <li>
+            <strong>火山方舟控制台</strong>：
+            <a href="https://console.volcengine.com/ark" target="_blank">https://console.volcengine.com/ark</a>
+          </li>
+          <li>
+            <strong>火山方舟官方文档</strong>：
+            <a href="https://www.volcengine.com/docs/82379" target="_blank">https://www.volcengine.com/docs/82379</a>
+          </li>
+          <li>
+            <strong>API接口文档</strong>：
+            <a href="https://www.volcengine.com/docs/82379/1099320" target="_blank">https://www.volcengine.com/docs/82379/1099320</a>
+          </li>
+          <li>
+            <strong>模型介绍</strong>：
+            <a href="https://www.volcengine.com/docs/82379/1099455" target="_blank">https://www.volcengine.com/docs/82379/1099455</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="text-center">
+        <a href="index.html" class="link-button">返回首页</a>
+      </div>
+    </div>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  </body>
+</html>

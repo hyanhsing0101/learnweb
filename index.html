@@ -112,12 +112,136 @@
 
         <!-- 简答题 -->
         <div class="tab-pane fade" id="jianda">
+          <div class="short-answer-header">
+            <button class="btn btn-danger btn-sm" onclick="clearAllShortAnswers()">
+              🗑️ 清空所有答案
+            </button>
+            <button class="btn btn-primary btn-sm ms-2" onclick="openAIConfig()">
+              🤖 AI配置
+            </button>
+          </div>
           <div class="accordion"></div>
         </div>
 
         <!-- 编程题 -->
         <div class="tab-pane fade" id="coding">
           <div class="accordion" id="codingAccordion"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI配置弹窗 -->
+    <div class="modal fade" id="aiConfigModal" tabindex="-1" aria-labelledby="aiConfigModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="aiConfigModalLabel">🤖 AI评分配置</h5>
+            <a href="api-guide.html" target="_blank" class="btn btn-link btn-sm text-decoration-none me-2" title="查看配置获取指南">
+              📖 查看指南
+            </a>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+          </div>
+          <div class="modal-body">
+            <form id="ai-config-form">
+              <!-- 启用开关 -->
+              <div class="mb-4">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="ai-enabled" style="transform: scale(1.2);">
+                  <label class="form-check-label fw-bold" for="ai-enabled">
+                    启用AI评分功能
+                  </label>
+                </div>
+                <small class="text-muted d-block mt-1">启用后可以使用AI对简答题进行智能评分</small>
+              </div>
+
+              <hr>
+
+              <!-- API Key -->
+              <div class="mb-3">
+                <label for="ai-api-key" class="form-label fw-bold">
+                  🔑 API Key <span class="text-danger">*</span>
+                  <a href="api-guide.html" target="_blank" class="text-decoration-none ms-1" title="查看API Key获取指南">
+                    <small>📖 如何获取？</small>
+                  </a>
+                </label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="ai-api-key" placeholder="请输入API Key">
+                  <button class="btn btn-outline-secondary" type="button" id="toggle-api-key-btn" onclick="toggleApiKeyVisibility()" title="显示">
+                    👁️
+                  </button>
+                </div>
+                <small class="text-muted">API密钥，用于身份验证</small>
+              </div>
+
+              <!-- API端点 -->
+              <div class="mb-3">
+                <label for="ai-endpoint" class="form-label fw-bold">
+                  🌐 API端点 <span class="text-danger">*</span>
+                  <a href="api-guide.html" target="_blank" class="text-decoration-none ms-1" title="查看Endpoint获取指南">
+                    <small>📖 如何获取？</small>
+                  </a>
+                </label>
+                <input type="text" class="form-control" id="ai-endpoint" placeholder="https://ark.cn-beijing.volces.com/api/v3/chat/completions">
+                <small class="text-muted">API服务地址</small>
+              </div>
+
+              <!-- 模型ID -->
+              <div class="mb-3">
+                <label for="ai-model" class="form-label fw-bold">
+                  🤖 模型ID <span class="text-danger">*</span>
+                  <a href="api-guide.html" target="_blank" class="text-decoration-none ms-1" title="查看Model获取指南">
+                    <small>📖 如何获取？</small>
+                  </a>
+                </label>
+                <input type="text" class="form-control" id="ai-model" placeholder="ep-m-20241201000000-abcde">
+                <small class="text-muted">使用的AI模型标识符（接入点ID）</small>
+              </div>
+
+              <!-- 高级参数（可折叠） -->
+              <div class="mb-3">
+                <button class="btn btn-link p-0 text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#advancedConfig" aria-expanded="false" aria-controls="advancedConfig">
+                  <span class="fw-bold">⚙️ 高级参数</span> <span class="small">▼</span>
+                </button>
+              </div>
+
+              <div class="collapse mb-3" id="advancedConfig">
+                <div class="card card-body bg-light">
+                  <!-- Temperature -->
+                  <div class="mb-3">
+                    <label for="ai-temperature" class="form-label">
+                      Temperature（温度参数）
+                    </label>
+                    <input type="number" class="form-control" id="ai-temperature" value="0.3" min="0" max="2" step="0.1">
+                    <small class="text-muted">控制输出的随机性，范围0-2，越小越严格（建议0.3）</small>
+                  </div>
+
+                  <!-- Max Tokens -->
+                  <div class="mb-0">
+                    <label for="ai-max-tokens" class="form-label">
+                      Max Tokens（最大返回长度）
+                    </label>
+                    <input type="number" class="form-control" id="ai-max-tokens" value="200" min="50" max="2000" step="50">
+                    <small class="text-muted">AI返回内容的最大长度，影响成本和响应时间（建议200）</small>
+                  </div>
+                </div>
+              </div>
+
+              <div class="alert alert-info mb-0">
+                <small>
+                  <strong>💡 提示：</strong><br>
+                  • 配置保存在浏览器本地，不会上传到服务器<br>
+                  • 默认使用火山方舟预设配置<br>
+                  • 启用功能前请确保API Key和端点配置正确<br>
+                  • <a href="api-guide.html" target="_blank" class="text-decoration-none fw-bold">📖 查看完整配置获取指南</a>
+                </small>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="resetAIConfig()">恢复默认</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="saveAIConfigFromForm()">保存配置</button>
+          </div>
         </div>
       </div>
     </div>
@@ -130,6 +254,7 @@
     
     <!-- 各题型模块 -->
     <script src="assets/js/choice-questions.js"></script>
+    <script src="assets/js/ai-config.js"></script>
     <script src="assets/js/short-questions.js"></script>
     <script src="assets/js/coding-questions.js"></script>
     
