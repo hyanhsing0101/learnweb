@@ -217,7 +217,7 @@ function saveAIConfigFromForm() {
 // 恢复默认配置
 function resetAIConfig() {
   if (confirm('确定要恢复默认配置吗？当前配置将被覆盖！')) {
-    // 使用默认配置（确保所有值都是空的）
+    // 创建完全空的默认配置
     const config = {
       enabled: false,
       apiKey: '',
@@ -227,24 +227,35 @@ function resetAIConfig() {
       maxTokens: 200,
     };
     
-    // 保存到localStorage并更新当前配置
-    if (saveAIConfig(config)) {
-      // 重新加载配置以确保同步
-      loadAIConfig();
-      
-      // 重新填充表单
-      document.getElementById('ai-enabled').checked = config.enabled;
-      document.getElementById('ai-api-key').value = config.apiKey;
-      document.getElementById('ai-endpoint').value = config.endpoint;
-      document.getElementById('ai-model').value = config.model;
-      document.getElementById('ai-temperature').value = config.temperature;
-      document.getElementById('ai-max-tokens').value = config.maxTokens;
-      
-      // 更新API Key显示状态
-      updateApiKeyVisibility();
-      
-      alert('✅ 已恢复默认配置！');
+    // 直接删除localStorage中的配置
+    try {
+      localStorage.removeItem('aiConfig');
+    } catch (e) {
+      console.error('删除配置失败:', e);
     }
+    
+    // 直接更新AI_CONFIG为默认配置（不合并，完全覆盖）
+    AI_CONFIG = {
+      enabled: false,
+      apiKey: '',
+      endpoint: '',
+      model: '',
+      temperature: 0.3,
+      maxTokens: 200,
+    };
+    
+    // 重新填充表单（直接使用config对象的值）
+    document.getElementById('ai-enabled').checked = false;
+    document.getElementById('ai-api-key').value = '';
+    document.getElementById('ai-endpoint').value = '';
+    document.getElementById('ai-model').value = '';
+    document.getElementById('ai-temperature').value = 0.3;
+    document.getElementById('ai-max-tokens').value = 200;
+    
+    // 更新API Key显示状态
+    updateApiKeyVisibility();
+    
+    alert('✅ 已恢复默认配置！');
   }
 }
 
