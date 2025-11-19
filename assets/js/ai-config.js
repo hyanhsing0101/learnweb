@@ -3,9 +3,9 @@
 // 默认配置（火山方舟预设）
 const DEFAULT_AI_CONFIG = {
   enabled: false,  // 默认禁用，需要用户手动启用
-  apiKey: '0410b4bc-1b67-42d3-b942-146d67cb6d90',
-  endpoint: 'https://ark.cn-beijing.volces.com/api/v3/chat/completions',
-  model: 'ep-m-20250922180300-slx8h',
+  apiKey: '',
+  endpoint: '',
+  model: '',
   temperature: 0.3,
   maxTokens: 200,
 };
@@ -217,8 +217,21 @@ function saveAIConfigFromForm() {
 // 恢复默认配置
 function resetAIConfig() {
   if (confirm('确定要恢复默认配置吗？当前配置将被覆盖！')) {
-    const config = { ...DEFAULT_AI_CONFIG };
+    // 使用默认配置（确保所有值都是空的）
+    const config = {
+      enabled: false,
+      apiKey: '',
+      endpoint: '',
+      model: '',
+      temperature: 0.3,
+      maxTokens: 200,
+    };
+    
+    // 保存到localStorage并更新当前配置
     if (saveAIConfig(config)) {
+      // 重新加载配置以确保同步
+      loadAIConfig();
+      
       // 重新填充表单
       document.getElementById('ai-enabled').checked = config.enabled;
       document.getElementById('ai-api-key').value = config.apiKey;
@@ -226,6 +239,10 @@ function resetAIConfig() {
       document.getElementById('ai-model').value = config.model;
       document.getElementById('ai-temperature').value = config.temperature;
       document.getElementById('ai-max-tokens').value = config.maxTokens;
+      
+      // 更新API Key显示状态
+      updateApiKeyVisibility();
+      
       alert('✅ 已恢复默认配置！');
     }
   }
